@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <header class="bg-blue-600 text-white py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">My Portfolio</h1>
+        <nav>
+          <ul class="flex space-x-4">
+            <li><a href="#about" class="hover:underline">About</a></li>
+            <li><a href="#projects" class="hover:underline">Projects</a></li>
+            <li><a href="#contact" class="hover:underline">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section id="about" class="py-16 bg-gray-100">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">About Me</h2>
+        <p class="text-gray-700 max-w-2xl mx-auto">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </div>
+    </section>
+
+    <section id="projects" class="py-16">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">My Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-2">Project 1</h3>
+            <p class="text-gray-700">
+              A brief description of the project goes here.
+            </p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-2">Project 2</h3>
+            <p class="text-gray-700">
+              A brief description of the project goes here.
+            </p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-2">Project 3</h3>
+            <p class="text-gray-700">
+              A brief description of the project goes here.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-16 bg-gray-100">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">Contact Me</h2>
+        <form
+          class="max-w-lg mx-auto"
+          action="https://github.com//pauletop/pauletop.github.io/issues"
+          method="POST"
+          target="_blank"
+        >
+          <div class="mb-4">
+            <label
+              for="name"
+              class="block text-left text-gray-700 font-bold mb-2"
+              >Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="w-full border border-gray-300 rounded-lg p-2"
+              placeholder="Your Name"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              for="email"
+              class="block text-left text-gray-700 font-bold mb-2"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full border border-gray-300 rounded-lg p-2"
+              placeholder="Your Email"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              for="message"
+              class="block text-left text-gray-700 font-bold mb-2"
+              >Message</label
+            >
+            <textarea
+              id="message"
+              class="w-full border border-gray-300 rounded-lg p-2"
+              rows="4"
+              placeholder="Your Message"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+          >
+            Send
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="bg-blue-600 text-white py-4">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2023 My Portfolio. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: "red",
+          secondary: "#14171A",
+        },
+      },
+    },
+  };
+
+  //   redirect to Google
+  window.onload = function () {
+    window.location.href = "https://phusportfolio-nine.vercel.app/";
+  };
+</script>
