@@ -20,14 +20,12 @@ import { cn } from "@/lib/utils";
 import emailjs from "@emailjs/browser";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
 const info = [
@@ -70,6 +68,11 @@ const messageTemplates = [
   "Hi, I am facing issues with my pathfinding that are impacting my emotional well-being. I need assistance to resolve this.",
   "Hi Paul,\nI am [yourname], a [role] at [company]. I am interested in your services and would like to discuss it further.",
   "Hello Phú, I am interested in your application and would like to know more about your expertise. Can we schedule a call?",
+  "Hi there, I'm impressed with your work and would love to explore a collaboration. May we connect further?",
+  "Xin chào, mình muốn gửi một chút phản hồi về [website/dự án của bạn]. Mong bạn tiếp tục phát triển!",
+  "Hi, I'm [Your Name]. I'm reaching out to [purpose]. Looking forward to hearing from you!",
+  "Cảm ơn bạn đã chia sẻ thông tin hữu ích. Mong có cơ hội kết nối với bạn trong tương lai!",
+  "Chào Phú, mình là [tên của bạn]. Mình thấy hứng thú với [dự án]. Bạn có thể chia sẻ và thảo luận thêm không?",
 ];
 
 const mode = "browser"; // "node" | "browser"

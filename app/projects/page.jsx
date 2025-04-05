@@ -23,7 +23,7 @@ const projects = [
     category: "data",
     title: "Data Project",
     description:
-      "Clustering data, reducing dimensionality, collaborative filtering, predictingstock prices, and multi-class classification, focusing on processing large-scale datasets",
+      "Clustering data, reducing dimensionality, collaborative filtering, predicting stock prices, and multi-class classification, focusing on processing large-scale datasets",
     stack: [
       {
         name: "Python",
@@ -177,7 +177,7 @@ const Work = () => {
                 return (
                   <SwiperSlide key={index} className="w-full">
                     <div className="h-[460px] relative group flex justify-center items-center bg-pink-50/20">
-                      <div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10"></div>
+                      <div className="absolute top-0 bottom-0 w-full h-full bg-black/8 z-10"></div>
                       <div className="w-full-h-full">
                         <Image
                           src={item.image}
