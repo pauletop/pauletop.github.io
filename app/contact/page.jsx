@@ -73,6 +73,8 @@ const messageTemplates = [
   "Hi, I'm [Your Name]. I'm reaching out to [purpose]. Looking forward to hearing from you!",
   "Cảm ơn bạn đã chia sẻ thông tin hữu ích. Mong có cơ hội kết nối với bạn trong tương lai!",
   "Chào Phú, mình là [tên của bạn]. Mình thấy hứng thú với [dự án]. Bạn có thể chia sẻ và thảo luận thêm không?",
+  "Dear Paul,\nI’m reaching out on behalf of [company/organization name]. We’ve been impressed with your portfolio and the quality of your past work. We are currently seeking a collaborator for a project in [project name/related field], and believe you could be a great fit.\nIf this sounds interesting to you, we’d be happy to connect and discuss the opportunity in more detail.\nKind regards,\n[Your Name]",
+  "Xin chào,\nTôi là [Tên bạn], hiện đang làm việc trong lĩnh vực [lĩnh vực chuyên môn]. Tôi rất quan tâm đến những dự án mà bạn đang thực hiện và tin rằng chúng ta có thể cùng nhau tạo ra giá trị.\nNếu bạn quan tâm đến việc hợp tác hoặc muốn thảo luận thêm, tôi rất mong được kết nối và trao đổi cụ thể hơn.\nCảm ơn bạn đã dành thời gian đọc tin nhắn này. Mong sớm nhận được phản hồi từ bạn.",
 ];
 
 const mode = "browser"; // "node" | "browser"
