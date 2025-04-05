@@ -72,8 +72,10 @@ const Services = () => {
               <span className="text-accent text-5xl">Paul's</span> Services
             </h2>
             <p className="mt-4 font-caps">
-              I offer a range of services to help businesses leverage data and
-              technology for growth and innovation.
+              I provide a variety of services to help you meet your goals, with
+              expertise in AI, data science, web development, and more. Whether
+              you need technical solutions or project management support, I'm
+              here to help.
             </p>
             <div className="my-6">
               <StickMenu width={"100%"} />
