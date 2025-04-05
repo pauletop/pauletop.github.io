@@ -17,6 +17,18 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { Typewriter } from "react-simple-typewriter";
 import { cn } from "@/lib/utils";
+import emailjs from "@emailjs/browser";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const info = [
   {
@@ -36,49 +48,150 @@ const info = [
   },
 ];
 
-const messageTemplates = [
-  "Hi, I'm experiencing some issues with my pathfinding; it's affecting my emotions. Can you help me?",
-  "Hi Paul,\nI am [yourname], a [role] at [company]. I am interested in your services and would like to discuss more about it.",
-  "Hello Phú, I am interested in your application. I would like to know more about your expertise, can we schedule a call?",
+const services = [
+  "AI & ML",
+  "Data Science",
+  "Data Engineering",
+  "Solutions Advisory",
+  "Web Development",
+  "Project Management & Coordination",
+  "Teaching Assistant",
+  "Entertainment",
 ];
+
+const survey = [
+  "Social Networking Sites",
+  "Search Engines",
+  "My Application",
+  "Other Sources",
+];
+
+const messageTemplates = [
+  "Hi, I am facing issues with my pathfinding that are impacting my emotional well-being. I need assistance to resolve this.",
+  "Hi Paul,\nI am [yourname], a [role] at [company]. I am interested in your services and would like to discuss it further.",
+  "Hello Phú, I am interested in your application and would like to know more about your expertise. Can we schedule a call?",
+];
+
+const mode = "browser"; // "node" | "browser"
 
 const Contact = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [randomTemplate, setRandomTemplate] = useState(
     "Type your message here..."
   );
+  const [formAlertMessage, setFormAlertMessage] = useState({
+    status: false,
+    message: "",
+    description: "",
+  });
 
+  var accum_count = 0;
   const randomTemplateFunc = () => {
     const randomIndex = Math.floor(Math.random() * messageTemplates.length);
     setRandomTemplate(messageTemplates[randomIndex]);
+
+    accum_count = 0;
   };
-  var accum_count = 0;
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       randomTemplateFunc();
-      accum_count = 0;
     }, 10000);
 
     return () => clearTimeout(timeout); // Cleanup nếu component unmount
   }, []);
 
-  const handleFocusTextArea = (e) => {
-    setIsEditing(true);
-    e.target.value = randomTemplate;
-  };
-  const typeDeleteHandler = () => {
-    accum_count += 1;
+  const formHandler = {
+    onFocusTextArea: (e) => {
+      setIsEditing(true);
+      e.target.value = randomTemplate.length === 25 ? "" : randomTemplate;
+    },
+    onBlurTextArea: (e) => {
+      if (e.target.value.length === 0) {
+        setIsEditing(false);
+        randomTemplateFunc();
+      }
+    },
+    typewriterOnDelete: () => {
+      accum_count += 1;
 
-    if (accum_count == randomTemplate.length) {
-      randomTemplateFunc();
-      accum_count = 0;
-    }
-  };
-  const formSubmitHandler = (e) => {
-    e.preventDefault();
-    alert(
-      "This function is not available now, please send an email instead. Sorry for this in-convinience."
-    );
+      if (accum_count === randomTemplate.length) {
+        randomTemplateFunc();
+      }
+    },
+    onSubmitForm: async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const name = formData.get("name");
+      const email = formData.get("email");
+      const phone = formData.get("phone");
+      const choice = formData.get("choice");
+      const message = formData.get("message");
+      const data = {
+        title: "New message from portfolio",
+        time: new Date().toLocaleString("en-US", {
+          timeZone: "Asia/Ho_Chi_Minh",
+        }),
+        name,
+        email,
+        phone,
+        choice,
+        message,
+      };
+      // send email using emailjs
+      if (mode === "browser") {
+        try {
+          const result = await emailjs.send(
+            process.env.NEXT_PUBLIC_SERVICE_ID,
+            process.env.NEXT_PUBLIC_TEMPLATE_ID,
+            data,
+            {
+              publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY,
+            }
+          );
+          console.log("Email sent successfully!", result);
+          setFormAlertMessage({
+            status: 200,
+            message: "Email sent successfully!",
+            description:
+              "I will get back to you as soon as possible.\nThank you for your message.",
+          });
+        } catch (error) {
+          console.error("Error sending email:", error);
+          setFormAlertMessage({
+            status: 500,
+            message: "Error sending email!",
+            description:
+              "I apologize for the inconvenience.\nPlease send via another service.",
+          });
+          return;
+        }
+        return;
+      }
+
+      // get from environment variable
+      const response = await fetch("/api/sendEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.status === 200) {
+        setFormAlertMessage({
+          status: 200,
+          message: "Email sent successfully! I will get back to you soon.",
+        });
+      } else {
+        setFormAlertMessage({
+          status: res.status,
+          message:
+            res.message +
+            "Please send via email!\nI apologize for the inconvenience.",
+        });
+      }
+    },
   };
 
   return (
@@ -97,7 +210,7 @@ const Contact = () => {
           <div className="flex-1 lg:w-[54%] order-2 lg:order-none">
             <form
               className="flex flex-col gap-6 p-8 bg-gradient-to-bl from-30% from-[#27272cbb] rounded-xl"
-              onSubmit={formSubmitHandler}
+              onSubmit={formHandler.onSubmitForm}
             >
               {/* header */}
               <h3 className="text-4xl text-bold font-script font-semibold">
@@ -111,19 +224,38 @@ const Contact = () => {
               </h3>
               {/* form fields */}
               <div className="text-2xl grid grid-cols-1 md:grid-cols-2 gap-6 font-waterfall">
-                <Input type="name" placeholder="How can I call you?" required />
-                <Input type="email" placeholder="Your email address" required />
-                <Input type="phone" placeholder="Your phone number" required />
-                <Select>
+                <Input
+                  type="name"
+                  name="name"
+                  placeholder="How can I call you?"
+                  required
+                />
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Your email address"
+                  required
+                />
+                <Input
+                  type="phone"
+                  name="phone"
+                  placeholder="Your phone number"
+                  required
+                />
+                <Select name="choice" required className="text-xl">
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a service" />
+                    <SelectValue placeholder="What brings you here?" />
                   </SelectTrigger>
-                  <SelectContent className="bg-prim/80 text-white/80 font-valentine text-xl">
+                  <SelectContent className="bg-prim/80 text-white/80 font-valentine max-h-[300px] overflow-y-auto">
                     <SelectGroup>
-                      <SelectLabel>Services</SelectLabel>
-                      <SelectItem value="web">Web Development</SelectItem>
-                      <SelectItem value="design">Design</SelectItem>
-                      <SelectItem value="consulting">Consulting</SelectItem>
+                      <SelectLabel>You are from...</SelectLabel>
+                      {survey.map((choice, index) => {
+                        return (
+                          <SelectItem key={index} value={choice}>
+                            {choice}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -141,7 +273,12 @@ const Contact = () => {
                       deleteSpeed={30}
                       delaySpeed={8000}
                       loop={false}
-                      onDelete={typeDeleteHandler}
+                      onDelete={formHandler.typewriterOnDelete}
+                      onType={(text, count) => {
+                        if (text.length === randomTemplate.length) {
+                          setIsEditing(false);
+                        }
+                      }}
                       cursorColor="#00ff99"
                       cursorBlinking
                       cursor
@@ -155,8 +292,9 @@ const Contact = () => {
                   )}
                   // placeholder="Type your message here"
                   // placeholder={isEditing ? "" : randomTemplate}
-                  onFocus={handleFocusTextArea}
-                  onBlur={() => setIsEditing(false)}
+                  name="message"
+                  onFocus={formHandler.onFocusTextArea}
+                  onBlur={formHandler.onBlurTextArea}
                 ></Textarea>
               </div>
               {/* btn */}
@@ -192,6 +330,34 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      {/* alert dialog */}
+      <AlertDialog
+        open={formAlertMessage.status}
+        onOpenChange={setFormAlertMessage}
+      >
+        <AlertDialogContent className="bg-prim/80 text-white/80 font-valentine">
+          <AlertDialogHeader>
+            <AlertDialogTitle
+              className={cn(
+                "text-2xl font-bold",
+                (formAlertMessage.status === 500 && "text-red-500") ||
+                  "text-green-500"
+              )}
+            >
+              {formAlertMessage.message}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xl">
+              {formAlertMessage.description}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="font-bold text-xl rounded-lg active:[text-shadow:_1px_1px_0px_white]">
+              Close
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Footer white />
     </motion.section>
   );

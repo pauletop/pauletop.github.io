@@ -42,3 +42,4 @@ next-env.d.ts
 
 /app/fonts/**/static/*
 /app/fonts/**/static
+/mail.html

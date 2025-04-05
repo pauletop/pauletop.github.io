@@ -18,6 +18,12 @@ import Main from "@/components/Main";
 export const metadata = {
   title: "Phus Portfolio",
   description: "Portfolio of Paul",
+  icons: {
+    icon: "/favicon.ico",
+    android: "/android-chrome-192x192.png",
+    apple: "/apple-touch-icon.png",
+    androidManifest: "/site.webmanifest",
+  },
 };
 
 export default function RootLayout({ children }) {
