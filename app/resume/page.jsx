@@ -9,13 +9,17 @@ import {
   FaGithub,
 } from "react-icons/fa";
 import {
+  SiPytorch,
   SiTailwindcss,
   SiNextdotjs,
   SiApachespark,
+  SiTensorflow,
+  SiKeras,
   SiScikitlearn,
   SiOpencv,
-  SiPostgresql,
   SiSpringboot,
+  SiFlask,
+  SiMongodb,
 } from "react-icons/si";
 
 const about = {
@@ -118,8 +122,20 @@ const skills = {
       name: "scikit-learn",
     },
     {
+      icon: <SiPytorch />,
+      name: "pytorch",
+    },
+    {
       icon: <SiOpencv />,
       name: "opencv",
+    },
+    {
+      icon: <SiTensorflow />,
+      name: "tensorflow",
+    },
+    {
+      icon: <SiKeras />,
+      name: "keras",
     },
     {
       icon: <FaGithub />,
@@ -138,12 +154,20 @@ const skills = {
       name: "spring boot",
     },
     {
+      icon: <SiFlask />,
+      name: "flask",
+    },
+    {
       icon: <SiNextdotjs />,
       name: "next.js",
     },
     {
       icon: <FaNodeJs />,
       name: "node.js",
+    },
+    {
+      icon: <SiMongodb />,
+      name: "mongodb",
     },
     {
       icon: <FaFigma />,
