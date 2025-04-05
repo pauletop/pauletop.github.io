@@ -326,7 +326,7 @@ const Resume = () => {
                             {item.fieldName}
                           </span>
                           <span className="w-[3px] h-[3px] rounded-full bg-accent/60"></span>
-                          <span className="text-3xl font-valentine font-bold [text-shadow:_2px_2px_1px_#00ff9999]">
+                          <span className="text-3xl font-fancy font-bold [text-shadow:_2px_2px_1px_#00ff9999]">
                             {item.fieldValue}
                           </span>
                         </li>
