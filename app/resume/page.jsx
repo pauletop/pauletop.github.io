@@ -67,7 +67,7 @@ const experience = {
   desc: "As an undergraduate, I have worked on projects like real-time vehicle detection using YOLOv10 and a full-stack e-commerce app, honing skills in backend development, data processing, and machine learning. Currently, as a Teaching Assistant at Life Skill Academy, I manage attendance, coordinate classes, and assist students, enhancing my communication and organizational skills.",
   items: [
     {
-      company: "Life Skill Assistant",
+      company: "TDTU's Division of Skills Training",
       position: "Teaching Assistant",
       duration: "2023 - 2025",
     },
@@ -87,12 +87,22 @@ const education = {
     {
       institution: "Ton Duc Thang University",
       degree: "Computer Science",
+      degreeTitle: "Bachelor of Computer Science",
       duration: "2021 - 2025",
+      courseHighlights: [
+        "Machine Learning & Deep Learning",
+        "Data Structures & Algorithms",
+        "Database Systems & Analysis",
+        "Security & Cloud Computing",
+        "Web Development & Business Analysis",
+      ],
     },
     {
       institution: "VAIP",
       degree: "AI Programming for Engineering",
+      degreeTitle: "Certificate of Completion",
       duration: "Summer 2024",
+      courseHighlights: "",
     },
   ],
 };
@@ -186,10 +196,41 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
+import { Typewriter } from "react-simple-typewriter";
 
 // Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
 
 const Resume = () => {
+  const [educationHoveredIndex, setEducationHoveredIndex] = useState(null);
+  const [showContentAbout, setShowContentAbout] = useState(false);
+  var value = "experience"; // default value
+
+  const handler = {
+    onClickTabsTrigger: (e) => {
+      const target = e.target;
+      value = target.id.split("-")[3] ? target.id.split("-")[3] : value;
+      if (!value) return;
+      setShowContentAbout(false); // reset
+      if (value === "about") {
+        const fadeoutTimeout = setTimeout(() => {
+          const commandElement = document.getElementById("about-me-command");
+          if (commandElement) {
+            commandElement.classList.add("animate-fade-out");
+          }
+        }, 1500);
+
+        const timeout = setTimeout(() => {
+          setShowContentAbout(true); // show after typing done
+        }, 2000); // adjust to match typing speed
+
+        return () => {
+          clearTimeout(fadeoutTimeout);
+          clearTimeout(timeout);
+        };
+      }
+    },
+  };
   const highlight = (children) => (
     <span className="text-blue-light [text-shadow:_2px_2px_1px_blue]">
       {children}
@@ -212,7 +253,10 @@ const Resume = () => {
             defaultValue="experience"
             className="flex flex-col lg:flex-row gap-[60px]"
           >
-            <TabsList className="flex flex-col w-full max-w-[380px] mx-auto lg:mx-0 gap-6 uppercase">
+            <TabsList
+              className="flex flex-col w-full max-w-[380px] mx-auto lg:mx-0 gap-6 uppercase select-none"
+              onClick={handler.onClickTabsTrigger}
+            >
               <TabsTrigger value="experience">Experience</TabsTrigger>
               <TabsTrigger value="education">Education</TabsTrigger>
               <TabsTrigger value="skills">Skills</TabsTrigger>
@@ -222,7 +266,7 @@ const Resume = () => {
             {/* content */}
             <div className="min-h-[70vh] w-full text-xl font-script">
               {/* exp */}
-              <TabsContent value="experience" className="w-full">
+              <TabsContent value="experience" className="w-full" id="exp">
                 <div className="flex flex-col gap-[30px] text-center lg:text-left font-script">
                   <h3 className="text-5xl font-bold">
                     {highlight("My")}&nbsp;{experience.title}
@@ -257,7 +301,7 @@ const Resume = () => {
                 </div>
               </TabsContent>
               {/* education */}
-              <TabsContent value="education" className="w-full">
+              <TabsContent value="education" className="w-full" id="edu">
                 <div className="flex flex-col gap-[30px] text-center lg:text-left">
                   <h3 className="text-5xl font-bold">
                     {highlight("My")}&nbsp;{education.title}
@@ -266,24 +310,55 @@ const Resume = () => {
                   <ScrollArea className="h-[400px]">
                     <ul className="grid gird-cols-1 lg:grid-cols-2 gap-[30px]">
                       {education.items.map((item, index) => {
+                        const isHovered = educationHoveredIndex === index;
                         return (
                           <li
                             key={index}
-                            className="bg-gradient-to-tr from-[#8b8baa66] from-50% to-[#20202599] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
+                            onMouseEnter={() => setEducationHoveredIndex(index)}
+                            onMouseLeave={() => setEducationHoveredIndex(null)}
                           >
-                            <span className="text-accent font-medium">
-                              {item.duration}
-                            </span>
-                            <h3 className="text-3xl max-w-[260px] min-h-[60px] text-center font-script [text-shadow:_2px_2px_1px_#0396FF] lg:text-left">
-                              {item.degree}
-                            </h3>
-                            <div className="flex items-center gap-3">
-                              {/* dot */}
-                              <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                              <p className="text-white/60 font-caps">
-                                {item.institution}
-                              </p>
-                            </div>
+                            {/* tooltip */}
+                            <TooltipProvider delayDuration={100}>
+                              <Tooltip>
+                                <TooltipTrigger className="w-full bg-gradient-to-tr from-[#8b8baa66] from-50% to-[#20202599] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1 group transition-all duration-300">
+                                  <span className="text-accent font-medium select-none">
+                                    {item.duration}
+                                  </span>
+                                  <h3 className="text-3xl max-w-[260px] min-h-[60px] text-center font-script [text-shadow:_2px_2px_1px_#0396FF] lg:text-left select-all">
+                                    {item.degree}
+                                  </h3>
+                                  <div className="flex items-center gap-3 min-h-[28px]">
+                                    {/* dot */}
+                                    <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
+                                    <p className="text-white/60 font-caps group-hover:text-accent/68">
+                                      <span className="group-hover:max-w-[90%] bottom-0 left-0 group-hover:w-full select-none">
+                                        {isHovered && item.courseHighlights ? (
+                                          <Typewriter
+                                            words={item.courseHighlights}
+                                            typeSpeed={40}
+                                            deleteSpeed={15}
+                                            delaySpeed={800}
+                                            loop={false}
+                                          />
+                                        ) : (
+                                          item.institution
+                                        )}
+                                        {/* {item.institution} */}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                  className="font-medium text-sm"
+                                  color="accent"
+                                  side="bottom"
+                                >
+                                  <p className="capitalize text-xl [text-shadow:_1px_1px_1px_#0396FF88] font-caps">
+                                    {item.degreeTitle}
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
                           </li>
                         );
                       })}
@@ -292,7 +367,7 @@ const Resume = () => {
                 </div>
               </TabsContent>
               {/* skills */}
-              <TabsContent value="skills" className="w-full h-full">
+              <TabsContent value="skills" className="w-full h-full" id="skills">
                 <div className="flex flex-col gap-[30px]">
                   <div className="flex flex-col gap-[30px] text-center lg:text-left">
                     <h3 className="text-5xl font-bold">
@@ -306,7 +381,7 @@ const Resume = () => {
                             <li key={index} className="">
                               <TooltipProvider delayDuration={100}>
                                 <Tooltip>
-                                  <TooltipTrigger className="w-full h-[150px] bg-gradient-to-tr from-[#8b8baa66] from-25% to-[#23232999] py-6 px-10 rounded-xl flex justify-center items-center group hover:inset-shadow-sm inset-shadow-accent/40 hover:ring ring-blue-light/85">
+                                  <TooltipTrigger className="w-full h-[150px] bg-gradient-to-tr from-[#8b8baa66] from-25% to-[#23232999] py-6 px-10 rounded-xl flex justify-center items-center group hover:inset-shadow-sm inset-shadow-accent/40 hover:ring ring-blue-light/25">
                                     <div className="text-6xl group-hover:text-[80px] group-hover:text-accent transition-all duration-500 ">
                                       {skill.icon}
                                     </div>
@@ -333,30 +408,52 @@ const Resume = () => {
               <TabsContent
                 value="about"
                 className="w-full text-center xl:text-left"
+                id="about"
               >
-                <div className="flex flex-col gap-[30px]">
+                <div className="flex flex-col gap-[30px] overflow-hidden">
                   <h3 className="text-5xl font-bold">
                     {about.title}&nbsp;{highlight("me")}
                   </h3>
                   <p className={descStyle}>{about.desc}</p>
-                  <ul className="grid gird-cols-1 lg:grid-cols-2 gap-y-6 max-w-[820px] mx-auto lg:mx-0">
-                    {about.info.map((item, index) => {
-                      return (
-                        <li
-                          key={index}
-                          className="flex items-center justify-center xl:justify-start gap-3"
-                        >
-                          <span className="text-white/60">
-                            {item.fieldName}
-                          </span>
-                          <span className="w-[3px] h-[3px] rounded-full bg-accent/60"></span>
-                          <span className="text-3xl font-valentine font-bold [text-shadow:_2px_2px_1px_#00ff9999]">
-                            {item.fieldValue}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <div className="relative">
+                    {/* display normal by ul */}
+                    {showContentAbout && (
+                      <ul className="grid gird-cols-1 lg:grid-cols-2 gap-y-6 max-w-[820px] mx-auto lg:mx-0">
+                        {about.info.map((item, index) => {
+                          return (
+                            <li
+                              key={index}
+                              className="flex items-center justify-center xl:justify-start gap-3"
+                            >
+                              <span className="text-white/60">
+                                {item.fieldName}
+                              </span>
+                              <span className="w-[3px] h-[3px] rounded-full bg-accent/60"></span>
+                              <span className="text-3xl font-valentine font-bold [text-shadow:_2px_2px_1px_#00ff9999]">
+                                {item.fieldValue}
+                              </span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                    {/*  */}
+                    {showContentAbout || (
+                      <div
+                        className="bg-black/60 p-6 rounded-xl text-white/80 shadow-md w-full text-left font-pixel"
+                        id="about-me-command"
+                      >
+                        <div className="text-xl flex items-center gap-2">
+                          <span className="text-red text-xl">$ </span>
+                          <Typewriter
+                            words={["cat about_paul"]}
+                            typeSpeed={60}
+                            delaySpeed={1000}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </TabsContent>
             </div>

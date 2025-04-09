@@ -269,7 +269,7 @@ const Contact = () => {
               <div className="relative">
                 {!isEditing && (
                   <div
-                    className="absolute top-3 left-4 text-white/60 text-2xl pointer-events-none"
+                    className="absolute top-3 left-4 text-white/60 text-2xl pointer-events-none w-[calc(inherit_-_16px)]"
                     onClick={() => setIsEditing(true)}
                   >
                     <Typewriter

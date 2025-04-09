@@ -98,7 +98,7 @@ export default function Home() {
                     cursorColor="#A12D2E"
                     typeSpeed={60}
                     deleteSpeed={30}
-                    delaySpeed={5000}
+                    delaySpeed={3000}
                   />
                 </span>{" "}
                 position within two years and advance to higher-level roles.
