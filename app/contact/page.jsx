@@ -58,9 +58,10 @@ const services = [
 ];
 
 const survey = [
+  "GitHub",
   "Social Networking Sites",
-  "Search Engines",
   "My Application",
+  "Search Engines",
   "Other Sources",
 ];
 
