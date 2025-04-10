@@ -20,10 +20,30 @@ import Footer from "@/components/Footer";
 const projects = [
   {
     num: "01",
+    category: "vision",
+    title: "Traffic Navigation System",
+    description:
+      "Implemented the YOLOv8 architecture to detect vehicles and predict traffic flow in future frames using LSTM. Then, using Dijkstra's algorithm to find the shortest path for user navigation.",
+    duration: "Dec 2024 - present",
+    stack: [
+      {
+        name: "python",
+      },
+      {
+        name: "open.cv",
+      },
+    ],
+    image: "/assets/project/thumb02.png",
+    live: "",
+    github: "https://github.com/NhatGiaHuyT/traffic-redirection-system",
+  },
+  {
+    num: "02",
     category: "data",
-    title: "Data Project",
+    title: "Clustering for Market segmentation & Predicting stock prices",
     description:
       "Clustering data, reducing dimensionality, collaborative filtering, predicting stock prices, and multi-class classification, focusing on processing large-scale datasets",
+    duration: "April - May 2024",
     stack: [
       {
         name: "Python",
@@ -37,11 +57,12 @@ const projects = [
     github: "https://github.com/pauletop/mmds_final_tdtu",
   },
   {
-    num: "02",
+    num: "03",
     category: "vision",
     title: "Vehicle Detection",
     description:
       "Implemented the latest YOLOv10 architecture to detect vehicles in real-time. Achieving high precision acrossdiverse scenarios. Built a user-friendly interface for model deployment.",
+    duration: "April - May 2024",
     stack: [
       {
         name: "python",
@@ -55,11 +76,12 @@ const projects = [
     github: "https://github.com/pauletop/YOLOv10-Vehicle-Detection",
   },
   {
-    num: "03",
+    num: "04",
     category: "web",
     title: "E-commerce website",
     description:
       "Technology e-commerce website. Including two roles: administrator and customer",
+    duration: "Nov - Dec 2023",
     stack: [
       {
         name: "Spring",
@@ -96,18 +118,28 @@ const Work = () => {
     >
       <div className="container mx-auto font-mono">
         <div className="flex flex-col lg:flex-row lg:gap-[30px]">
-          <div className="w-full lg:w-[50%] lg:h-[460px] flex flex-col lg:justify-between order-2 lg:order-none">
+          <div className="w-full lg:w-[50%] lg:h-[460px] flex flex-col lg:justify-between order-2 mt-6 lg:mt-0 lg:order-none">
             <div className="flex flex-col gap-[30px] h-[50%] ">
               {/* outline number */}
-              <div className="text-6xl leading-none font-extrabold text-transparent [-webkit-text-stroke:_1px_var(--color-white)]">
-                {project.num}
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-6xl leading-none font-extrabold text-transparent [-webkit-text-stroke:_1px_var(--color-white)]">
+                  {project.num}
+                </div>
+                <div className="text-white/50 text-lg italic leading-none">
+                  {project.duration && project.duration}
+                </div>
               </div>
               {/* project category */}
               <h2 className="text-[42px] font-bold leading-none group-hover:text-accent transition-all duration-500 capitalize">
                 {project.category}&nbsp;project
               </h2>
               {/* project description */}
-              <p className="text-white/60 font-gummy">{project.description}</p>
+              <div className="text-white/60 font-gummy">
+                <h3 className="text-white/80 text-xl font-bold">
+                  {project.title}
+                </h3>
+                <p className="">{project.description}</p>
+              </div>
               {/* project stack */}
               <ul className="flex gap-4 text-accent text-md font-pixel">
                 {project.stack.map((item, index) => (
