@@ -18,7 +18,7 @@ const Name = () => {
           e
         </span>
       </span>
-      <span className="font-script text-red relative drop-shadow-md text-[60px] lg:text-[86px] [text-shadow:_2px_2px_1px_white] hover:font-semibold">
+      <span className="font-script text-red relative drop-shadow-md text-[60px] lg:text-[86px] [text-shadow:_2px_2px_1px_white]">
         Minh Phú
       </span>
     </motion.div>
